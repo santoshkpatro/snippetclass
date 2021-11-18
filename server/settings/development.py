@@ -18,3 +18,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_VERIFICATION_LINK = 'http://127.0.0.1:8000/api/auth/verify_email'

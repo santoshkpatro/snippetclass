@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.mail import send_mail
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
@@ -39,11 +40,14 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name']
 
+    email_verification_token = models.CharField(max_length=50, blank=True, null=True)
+
     password_reset_required = models.BooleanField(default=False)
     password_reset_token = models.CharField(max_length=50, blank=True, null=True)
     password_reset_expiry = models.DateTimeField(blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
+    is_email_verified = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     is_instructor = models.BooleanField(default=False)
 
