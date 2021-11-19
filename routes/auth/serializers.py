@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.tokens import AccessToken
 from app.models import User
 
@@ -36,3 +37,13 @@ class AuthSerializer(serializers.ModelSerializer):
 
     def get_auth_token(self, obj):
         return str(AccessToken.for_user(obj))
+
+
+class PasswordResetSerializer(serializers.Serializer):
+    password = serializers.CharField()
+    confirm_password = serializers.CharField()
+
+    def validate(self, attrs):
+        if attrs['password'] != attrs['confirm_password']:
+            raise ValidationError('Password and confirm password did not match')
+        return super().validate(attrs)
